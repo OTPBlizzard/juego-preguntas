@@ -1,0 +1,54 @@
+[
+    {
+        "categoria":"¡Peligros!",
+        "pregunta":"¿Que peligro se evidencia en esta imagen?",
+        "respuesta":"Fisico",
+        "incorrecta1":"Quimico",
+        "incorrecta2":"Biologico",
+        "incorrecta3":"Biomedico",
+        "imagen":"https://i.blogs.es/d76957/riesgos-musica-demasiado-alta/650_1200.jpg",
+        "object_fit":"cover"
+    },
+    {
+        "categoria":"¡Peligros!",
+        "pregunta":"¿Que peligro se evidencia en esta imagen?",
+        "respuesta":"Quimico",
+        "incorrecta1":"Biologico",
+        "incorrecta2":"Psicologico",
+        "incorrecta3":"De seguridad",
+        "imagen":"https://concepto.de/wp-content/uploads/2019/09/riesgo-qui%CC%81mico-tipos-proteccion-laboratorio-e1568309208327.jpg",
+        "object_fit":"cover"
+    },
+    {
+        "categoria":"¡Peligros!",
+        "pregunta":"¿Que peligro se evidencia en esta imagen?",
+        "respuesta":"Biologico",
+        "incorrecta1":"Psicologico",
+        "incorrecta2":"Fisico",
+        "incorrecta3":"Quimico",
+        "imagen":"https://img.freepik.com/vector-premium/persona-limpieza-riesgo-biologico-enfermera-particulas-covid19_18591-65147.jpg",
+        "object_fit":"cover"
+    },
+    {
+        "categoria":"¡Peligros!",
+        "pregunta":"¿Que peligro se evidencia en esta imagen?" ,
+        "respuesta":"Psicologico",
+        "incorrecta1":"Fisico",
+        "incorrecta2":"De seguridad",
+        "incorrecta3":"Biomedico",
+        "imagen":"https://observatorioriesgospsicosociales.com/wp-content/uploads/2019/02/riesgo-psicosocial.jpg",
+        "object_fit":"cover"
+    },
+    {
+        "categoria":"¡Peligros!",
+        "pregunta":"¿Que peligro se evidencia en esta imagen?" ,
+        "respuesta":"De seguridad",
+        "incorrecta1":"Quimico",
+        "incorrecta2":"Psicologico",
+        "incorrecta3":"Fisico",
+        "imagen":"https://e7.pngegg.com/pngimages/274/29/png-clipart-job-safety-analysis-hazard-analysis-job-analysis-others-miscellaneous-cartoon.png",
+        "object_fit":"cover"
+    }
+    
+
+]

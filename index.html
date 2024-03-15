@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de preguntas</title>
+</head>
+<body>
+    <style>
+        *{
+            transition: all 0.03s;
+            font-family: calibri;
+        }
+
+
+
+
+        body{
+            background-color: antiquewhite;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            font-family: calibri;
+            font-size: 120%;
+
+        }
+
+        .contenedor{
+            width: 98vw;
+            height: 97vh;
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid white;
+        }
+
+        .encabezado{
+            background: antiquewhite;
+            min-width: 300px;
+            width: 70%;
+        }
+        .categoria{
+            opacity: 10;
+            text-align: center;
+
+        }
+        .pregunta{
+            padding: 10px;
+        }
+        .imagen {
+            /* Estilos de la imagen */
+            max-width: 100%; /* Tamaño máximo de la imagen */
+            max-height: 300px; /* Altura máxima de la imagen */
+            object-fit: cover; /* Ajuste de la imagen dentro del contenedor */
+            border-radius: 10px; /* Bordes redondeados */
+            margin-top: 10px; /* Margen superior */
+        }
+        .btn {
+            /* Estilos de los botones */
+            background-color: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 10px; /* Bordes redondeados */
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            width: 200px; /* Ancho fijo para todos los botones */
+            box-sizing: border-box; /* Incluir el borde y el relleno en el tamaño total */
+        }
+        #btnAyuda {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #ffcc00;
+            border: 2px solid #000000;
+            border-radius: 50%; /* Forma circular */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+         /* Estilos para la ventana emergente de ayuda */
+         .mostrarAyuda {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            border: 2px solid #000000;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 2; /* Asegurar que esté encima del resto de los elementos */
+            display: none; /* Ocultar inicialmente */
+        }
+
+        /* Estilos para el contenido de la ventana emergente */
+        #contenidoAyuda {
+            font-size: 16px;
+        }
+        
+        .btn:hover{
+            background-color: aquamarine;
+            cursor: pointer;
+            transform: scale(1.05);
+             
+        }
+        .correcto {
+            background-color: lightgreen;
+        }
+
+        .incorrecto {
+            background-color: lightcoral;
+        }
+
+        @keyframes feedbackAnimation {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1;
+        }
+
+        .correcto-feedback {
+            background-color: lightgreen;
+        }
+
+        .incorrecto-feedback {
+            background-color: lightcoral;
+        }
+
+        .fin-juego {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 24px;
+            display: none;
+            animation: aparecer 1s ease forwards;
+        }
+
+        @keyframes aparecer {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        #ganaste, #perdiste {
+            font-size: 40px;
+            font-weight: bold;
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            z-index: 2;
+        }
+
+        /* Animación para mostrar */
+        @keyframes mostrarMensaje {
+            from {
+                transform: translate(-50%, -50%) scale(0);
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* Animación para ocultar */
+        @keyframes ocultarMensaje {
+            from {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            to {
+                transform: translate(-50%, -50%) scale(0);
+            }
+        }
+
+        #btnAyuda {
+            /* Estilos anteriores */
+            cursor: pointer;
+        }
+
+        /* Estilos para la ventana emergente de ayuda */
+        #ventanaAyuda {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            border: 2px solid #000000;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 2;
+            max-width: 80%;
+        }
+
+        /* Estilos para el contenido de la ventana emergente */
+        #contenidoAyuda {
+            font-size: 16px;
+            text-align: left;
+        }
+
+        /* Estilos para el botón de cerrar */
+        .btnCerrar {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: red; /* Color rojo */
+        }
+
+        .btnCerrar:hover {
+            color: #ff0000; /* Cambio de color rojo más intenso al pasar el cursor */
+        }
+       
+
+
+    </style>
+
+    <div class="contenedor">
+        <div class="encabezado">
+            <div class="categoria" id="categoria">
+                Categoria
+            </div>
+            <div class="pregunta" id="pregunta">
+                Pregunta
+            </div>
+            <img src="" class="imagen" id="imagen">
+        </div>
+        <div class="btn" id="btn1" onclick="verificarRespuesta(this)">
+            Opción 1
+        </div>
+        <div class="btn" id="btn2" onclick="verificarRespuesta(this)">
+            Opción 2
+        </div>
+        <div class="btn" id="btn3" onclick="verificarRespuesta(this)">
+            Opción 3
+        </div>
+        <div class="btn" id="btn4" onclick="verificarRespuesta(this)">
+            Opción 4
+        </div>
+        </div>
+            <button class="btn" onclick="reiniciarJuego()">Reiniciar juego</button>
+        </div>
+        
+        <div id="ventanaAyuda">
+            <div class="btnCerrar" onclick="cerrarAyuda()">x</div>
+            <div id="contenidoAyuda">
+            
+                <h2>Tipos de peligros</h2>
+                <ul>
+                    <li><strong>Peligro físico:</strong> Peligro que puede causar daño físico.</li>
+                    <li><strong>Peligro químico:</strong> Peligro causado por sustancias químicas.</li>
+                    <li><strong>Peligro biológico:</strong> Peligro causado por organismos vivos.</li>
+                    <li><strong>Peligro psicológico:</strong> Peligro relacionado con la salud mental o emocional.</li>
+                    <li><strong>Peligro de seguridad:</strong> Peligro que amenaza la seguridad de las personas o la propiedad.</li>
+                </ul>
+            </div>
+        </div>
+    
+        <div id="btnAyuda" onclick="mostrarAyuda()">Pista</div>
+
+        <div id="ganaste">¡Ganaste!</div>
+        <div id="perdiste">¡Perdiste!</div>
+
+    </div>
+    <script>
+
+        let currentQuestionIndex = -1;
+        let originalQuestions = [];
+        let gameQuestions = [];
+        let gameEnded = false;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            loadQuestions();
+            nextQuestion();
+        });
+
+        function loadQuestions() {
+            let base_preguntas = readText("base-preguntas.json");
+            originalQuestions = JSON.parse(base_preguntas);
+            gameQuestions = [...originalQuestions]; // Crear una copia de las preguntas
+        }
+
+        function nextQuestion() {
+            if (gameEnded) return;
+            if (gameQuestions.length === 0) {
+                // Si se han hecho todas las preguntas, el juego termina
+                gameEnded = true;
+                mostrarMensajeFinal(true); // Mostrar mensaje de ganar
+                return;
+            }
+            currentQuestionIndex = Math.floor(Math.random() * gameQuestions.length);
+            escogerPregunta(currentQuestionIndex);
+            resetButtons();
+        }
+
+        function escogerPregunta(n) {
+            let pregunta = gameQuestions[n];
+            document.getElementById("categoria").innerHTML = pregunta.categoria;
+            document.getElementById("pregunta").innerHTML = pregunta.pregunta;
+            document.getElementById("imagen").src = pregunta.imagen;
+            document.getElementById("imagen").style.objectFit = pregunta.object_fit;
+
+            // Mezclar aleatoriamente las opciones de respuesta
+            let respuestas = [pregunta.respuesta, pregunta.incorrecta1, pregunta.incorrecta2, pregunta.incorrecta3];
+            respuestas = shuffleArray(respuestas);
+
+            document.getElementById("btn1").innerHTML = respuestas[0];
+            document.getElementById("btn2").innerHTML = respuestas[1];
+            document.getElementById("btn3").innerHTML = respuestas[2];
+            document.getElementById("btn4").innerHTML = respuestas[3];
+        }
+
+        function shuffleArray(array) {
+            // Algoritmo de Fisher-Yates para mezclar un array
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function readText(ruta_local) {
+            var texto = null;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", ruta_local, false);
+            xmlhttp.send();
+            if (xmlhttp.status == 200) {
+                texto = xmlhttp.responseText;
+            }
+            return texto;
+        }
+
+        function verificarRespuesta(btn) {
+            if (gameEnded) return;
+
+            let selectedOption = btn.innerHTML;
+            let correctAnswer = gameQuestions[currentQuestionIndex].respuesta;
+            if (selectedOption === correctAnswer) {
+                btn.classList.add("correcto");
+                showFeedback("¡Correcto!", "correcto-feedback");
+            } else {
+                btn.classList.add("incorrecto");
+                showFeedback("¡Incorrecto!", "incorrecto-feedback");
+            }
+
+            // Eliminar la pregunta actual del array de preguntas del juego
+            gameQuestions.splice(currentQuestionIndex, 1);
+
+            setTimeout(() => {
+                nextQuestion();
+            }, 1000);
+        }
+
+        function reiniciarJuego() {
+            gameQuestions = [...originalQuestions];
+            gameEnded = false;
+            mostrarMensajeFinal(false); // Ocultar mensaje final
+            nextQuestion();
+        }
+
+        function resetButtons() {
+            let buttons = document.querySelectorAll(".btn");
+            buttons.forEach(button => {
+                button.classList.remove("correcto");
+                button.classList.remove("incorrecto");
+            });
+        }
+
+        function showFeedback(message, className) {
+            let feedback = document.createElement("div");
+            feedback.textContent = message;
+            feedback.classList.add("feedback");
+            feedback.classList.add(className);
+            document.body.appendChild(feedback);
+            setTimeout(() => {
+                document.body.removeChild(feedback);
+            }, 2000);
+        }
+        
+
+        function mostrarAyuda() {
+            let ventanaAyuda = document.getElementById("ventanaAyuda");
+            ventanaAyuda.style.display = "block";
+        }
+
+        function mostrarMensajeFinal(ganaste) {
+            let mensajeFinal = document.getElementById(ganaste ? "ganaste" : "perdiste");
+            mensajeFinal.style.display = "block";
+            mensajeFinal.animate([
+                { opacity: 0, transform: 'translate(-50%, -50%) scale(0)' },
+                { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' }
+            ], {
+                duration: 1000,
+                easing: 'ease-in-out'
+            });
+        }
+
+
+        function reiniciarJuego() {
+            gameQuestions = [...originalQuestions];
+            gameEnded = false;
+            ocultarMensajeFinal(); // Ocultar mensaje final
+            nextQuestion();
+        }
+
+        function ocultarMensajeFinal() {
+            let mensajeFinal = document.getElementById("perdiste");
+            mensajeFinal.style.display = "none";
+        }
+
+        function ocultarMensajeFinal() {
+            let mensajeFinal = document.getElementById("ganaste");
+            mensajeFinal.style.display = "none";
+        }
+
+        function mostrarAyuda() {
+            let ventanaAyuda = document.getElementById("ventanaAyuda");
+            ventanaAyuda.style.display = "block";
+        }
+
+        function cerrarAyuda() {
+            let ventanaAyuda = document.getElementById("ventanaAyuda");
+            ventanaAyuda.style.display = "none";
+        }
+
+        
+
+        
+    </script>
+        
+    
+    
+</body>
+</html>
